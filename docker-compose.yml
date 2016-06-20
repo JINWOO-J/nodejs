@@ -1,0 +1,19 @@
+nodejs_modules:
+    image: gds_nodejs_modules:1.0
+    volumes:
+        - /usr/local/node/lib/node_modules
+        
+nodejs:
+    image: nodejs:4.4.5
+    
+    volumes_from:
+        - nodejs_modules
+
+    ports:
+        - "3000:3000"
+
+    environment:
+        WWW_NODEJS: "/home/www_nodejs"
+
+    command: "${node_modules}/pm2/bin/pm2 start -x /home/www_nodejs/server.js  --watch --no-daemon --log /var/log/"
+#     command: bash -c "while [ 0 ]; do sleep 1;done"
